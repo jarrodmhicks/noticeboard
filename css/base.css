@@ -1,0 +1,109 @@
+/* Design tokens (colors, sizes), page reset and page layout */
+:root {
+  --page:#ffffff;
+  --ink:#1a1a18;
+  --muted:#6b6a64;
+  --serif:ui-serif,Georgia,"Times New Roman",serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  /* One color per sense. -c- is the tile swatch on the board, -i- is the (slightly deeper)
+     engraved icon color, -b- is the button cap. */
+  --c-hearing:#E5484D;
+  --c-smell:#F5821F;
+  --c-taste:#F7C325;
+  --c-touch:#3BB066;
+  --c-vision:#2F6FDE;
+  --c-any:#7B52D6;
+  --i-hearing:#D93036;
+  --i-smell:#E26A00;
+  --i-taste:#C99400;
+  --i-touch:#2A9455;
+  --i-vision:#2A62C8;
+  --i-any:#6A42C4;
+  --b-hearing:#E5484D;
+  --b-smell:#F5821F;
+  --b-taste:#F7C325;
+  --b-touch:#3BB066;
+  --b-vision:#2F6FDE;
+  --b-any:#7B52D6;
+  /* --u is the master unit: the stack is 648 units wide, so 1 unit = 1/648 of its width.
+     Everything is sized in units, which makes the board and panel scale as one piece.
+     --ub does the same for the board, whose inner width is 572 units. */
+  --u:calc(100cqw / 648);
+  --ub:calc(100cqw / 572);
+  --rf:calc(8 * var(--u));
+  --fp:calc(34 * var(--u));
+  --pl:#050505;
+  --ps:0 calc(1 * var(--u)) 0 rgba(255,255,255,.11),0 calc(-1 * var(--u)) 0 rgba(0,0,0,.9);
+  /* Sense button sizes: --ds is the cap diameter in units, --wp the well padding, --dp the
+     travel of the cap (how tall it stands), --ins its top highlight. */
+  --ds:46;
+  --d:calc(var(--ds) * var(--u));
+  --wp:calc(8 * var(--u));
+  --wellh:calc(var(--d) + var(--wp));
+  --dp:calc(6 * var(--u));
+  --ins:inset 0 calc(1 * var(--u)) 0 rgba(255,255,255,.35);
+  /* Tabletop look of the panel: tilt angle, panel width and thickness of its front lip. */
+  --tilt:16deg;
+  --bw:84%;
+  --lip:calc(10 * var(--u));
+}
+
+html {
+  color-scheme:light;
+}
+
+* {
+  box-sizing:border-box;
+}
+
+body {
+  margin:0;
+  background:var(--page);
+  color:var(--ink);
+  font-family:var(--sans);
+  min-height:100vh;
+}
+
+.wrap {
+  max-width:680px;
+  margin:0 auto;
+  padding:14px 16px 40px;
+}
+
+.stack {
+  container-type:inline-size;
+  margin:0 auto;
+  max-width:min(100%,max(380px,calc((100vh - 64px) * 1.02)));
+}
+
+.ns {
+  max-width:420px;
+  margin:60px auto;
+  padding:0 16px;
+  font-family:var(--serif);
+  font-size:22px;
+  line-height:1.4;
+  text-align:center;
+}
+
+.ns small {
+  display:block;
+  margin-top:10px;
+  font:14px var(--sans);
+  color:var(--muted);
+}
+
+.err {
+  display:none;
+  margin:14px 0 0;
+  font-size:14px;
+  color:var(--muted);
+}
+
+.sr {
+  position:absolute;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+}

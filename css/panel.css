@@ -1,0 +1,418 @@
+/* The control panel (tilted tabletop box), its cable, screws, plug and cable port */
+.rig {
+  position:relative;
+  height:clamp(calc(46 * var(--u)),9vw,calc(64 * var(--u)));
+}
+
+#wires {
+  position:absolute;
+  left:0;
+  top:0;
+  overflow:visible;
+  pointer-events:none;
+}
+
+.table {
+  position:relative;
+  z-index:3;
+  touch-action:manipulation;
+  perspective:calc(1300 * var(--u));
+  perspective-origin:50% 0%;
+}
+
+.panel {
+  position:relative;
+  width:var(--bw);
+  margin:0 auto;
+  background:linear-gradient(#1d1d1d,#111);
+  border-radius:calc(var(--rf)*.8);
+  padding:calc(24 * var(--u)) calc(14 * var(--u)) calc(38 * var(--u));
+  transform-origin:50% 0;
+  transform:rotateX(var(--tilt));
+  box-shadow:inset 0 calc(1 * var(--u)) 0 rgba(255,255,255,.08),0 var(--lip) 0 #060606,0 calc(var(--lip) + calc(16 * var(--u))) calc(24 * var(--u)) calc(-4 * var(--u)) rgba(0,0,0,.4);
+}
+
+.scr {
+  position:absolute;
+  width:calc(8 * var(--u));
+  height:calc(8 * var(--u));
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#6c6c68,#2a2a28);
+  box-shadow:0 0 0 calc(1 * var(--u)) rgba(0,0,0,.7),0 calc(1 * var(--u)) 0 rgba(255,255,255,.08);
+}
+
+.scr::after {
+  content:"";
+  position:absolute;
+  left:calc(1 * var(--u));
+  right:calc(1 * var(--u));
+  top:50%;
+  height:calc(1.4 * var(--u));
+  margin-top:calc(-.7 * var(--u));
+  background:rgba(0,0,0,.75);
+  transform:rotate(var(--rot,35deg));
+}
+
+.scr.a {
+  left:calc(8 * var(--u));
+  top:calc(8 * var(--u));
+}
+
+.scr.b {
+  right:calc(8 * var(--u));
+  top:calc(8 * var(--u));
+  --rot:-20deg;
+}
+
+.scr.c {
+  left:calc(8 * var(--u));
+  bottom:calc(8 * var(--u));
+  --rot:75deg;
+}
+
+.scr.d2 {
+  right:calc(8 * var(--u));
+  bottom:calc(8 * var(--u));
+  --rot:10deg;
+}
+
+.port {
+  position:absolute;
+  top:calc(50% - calc(8 * var(--u)));
+  left:calc(-3 * var(--u));
+  width:calc(6 * var(--u));
+  height:calc(16 * var(--u));
+  border-radius:calc(2 * var(--u)) 0 0 calc(2 * var(--u));
+  background:#000;
+  box-shadow:inset 0 calc(1 * var(--u)) calc(2 * var(--u)) #000,0 calc(1 * var(--u)) 0 rgba(255,255,255,.1);
+}
+
+/* Sense buttons: engraved icon above a round well with a pressable cap */
+.box {
+  display:flex;
+  align-items:flex-start;
+  gap:calc(10 * var(--u));
+}
+
+.keys {
+  flex:1;
+  min-width:0;
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:calc(4 * var(--u));
+}
+
+.bt {
+  --b:var(--b-any);
+  --ik:#8d8d88;
+  --bd:color-mix(in srgb,var(--b),#000 45%);
+  font:inherit;
+  background:none;
+  border:0;
+  padding:0;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:calc(9 * var(--u));
+  -webkit-tap-highlight-color:transparent;
+}
+
+.bt[data-s=hearing] {
+  --b:var(--b-hearing);
+  --ik:var(--i-hearing);
+}
+
+.bt[data-s=smell] {
+  --b:var(--b-smell);
+  --ik:var(--i-smell);
+}
+
+.bt[data-s=taste] {
+  --b:var(--b-taste);
+  --ik:var(--i-taste);
+}
+
+.bt[data-s=touch] {
+  --b:var(--b-touch);
+  --ik:var(--i-touch);
+}
+
+.bt[data-s=vision] {
+  --b:var(--b-vision);
+  --ik:var(--i-vision);
+}
+
+.bt:focus-visible {
+  outline:calc(2 * var(--u)) solid #f2f2ee;
+  outline-offset:calc(3 * var(--u));
+  border-radius:calc(8 * var(--u));
+}
+
+.pic {
+  width:calc(36 * var(--u));
+  height:calc(36 * var(--u));
+}
+
+.pic,.spk {
+  flex:none;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.9;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  overflow:visible;
+}
+
+.eng {
+  --ik2:var(--ik);
+  color:var(--ik2);
+}
+
+.eng {
+  color:color-mix(in srgb,var(--ik2) 76%,#000);
+  stroke-width:2.1;
+  filter:drop-shadow(0 calc(1 * var(--u)) 0 rgba(255,255,255,.3)) drop-shadow(0 calc(-1 * var(--u)) 0 rgba(0,0,0,1)) drop-shadow(0 0 calc(.5 * var(--u)) rgba(0,0,0,.9));
+}
+
+.well {
+  position:relative;
+  width:var(--wellh);
+  height:var(--wellh);
+  border-radius:50%;
+  background:#000;
+  box-shadow:inset 0 calc(2 * var(--u)) calc(5 * var(--u)) rgba(0,0,0,1),0 calc(1 * var(--u)) 0 rgba(255,255,255,.1);
+}
+
+.cap {
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:var(--d);
+  height:var(--d);
+  margin:calc(var(--d)/-2) 0 0 calc(var(--d)/-2);
+  border-radius:50%;
+  background:var(--b);
+  transform:translateY(calc(var(--dp)*-.5));
+  box-shadow:var(--ins),0 var(--dp) 0 var(--bd),0 calc(var(--dp) + calc(3 * var(--u))) calc(6 * var(--u)) rgba(0,0,0,.5);
+  transition:transform .17s cubic-bezier(.3,1.7,.5,1),box-shadow .17s ease-out,filter .17s;
+}
+
+.bt:hover .cap {
+  filter:brightness(1.07);
+}
+
+.bt.down .cap {
+  transform:translateY(calc(var(--dp)*.5)) scale(.96);
+  box-shadow:var(--ins),0 calc(1 * var(--u)) 0 var(--bd),0 calc(2 * var(--u)) calc(3 * var(--u)) rgba(0,0,0,.5);
+  transition:transform .07s ease-out,box-shadow .07s ease-out;
+  filter:brightness(.82);
+}
+
+.bt[data-s=any] {
+  --ik:var(--i-any);
+}
+
+/* Right side of the panel: sound fader on top, back and copy buttons below */
+.swcol {
+  --ik:#5c5c59;
+  padding-top:calc(5 * var(--u));
+  --sw:calc(108 * var(--u));
+  position:relative;
+  align-self:stretch;
+  flex:none;
+  width:var(--sw);
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  justify-content:flex-start;
+  gap:calc(9 * var(--u));
+}
+
+.sndrow {
+  height:calc(36 * var(--u));
+  display:flex;
+  align-items:center;
+  gap:calc(3 * var(--u));
+  flex:none;
+}
+
+.cprow {
+  height:calc(49 * var(--u));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex:none;
+}
+
+.spkw {
+  width:calc(18 * var(--u));
+  height:calc(18 * var(--u));
+  display:grid;
+  place-items:center;
+  flex:none;
+}
+
+.spkw .spk {
+  width:calc(16 * var(--u));
+  height:calc(16 * var(--u));
+}
+
+.sw {
+  --cw:calc(200 * var(--u));
+  --kw:calc(16 * var(--u));
+  --k0:calc(2 * var(--u));
+  appearance:none;
+  border:0;
+  padding:0;
+  background:none;
+  cursor:pointer;
+  position:relative;
+  -webkit-tap-highlight-color:transparent;
+  display:block;
+  flex:1;
+  min-width:0;
+  max-width:var(--cw);
+  margin:0 auto;
+  height:calc(24 * var(--u));
+}
+
+.sw:focus-visible {
+  outline:calc(2 * var(--u)) solid #f2f2ee;
+  outline-offset:calc(3 * var(--u));
+  border-radius:calc(6 * var(--u));
+}
+
+.sw .knob {
+  position:absolute;
+  width:var(--kw);
+  transition:left .17s cubic-bezier(.3,1.4,.5,1),transform .17s cubic-bezier(.3,1.4,.5,1),background .17s;
+}
+
+.sw[aria-checked=false] .knob {
+  left:var(--k0);
+}
+
+.sw[aria-checked=true] .knob {
+  left:calc(100% - var(--kw) - var(--k0));
+}
+
+.sw::before {
+  content:"";
+  position:absolute;
+  left:calc(2 * var(--u));
+  right:calc(2 * var(--u));
+  top:50%;
+  height:calc(6 * var(--u));
+  margin-top:calc(-3 * var(--u));
+  border-radius:calc(3 * var(--u));
+  background:#020202;
+  box-shadow:inset 0 calc(1 * var(--u)) calc(3 * var(--u)) #000,0 calc(1 * var(--u)) 0 rgba(255,255,255,.1);
+}
+
+.sw .knob {
+  top:calc(1 * var(--u));
+  height:calc(22 * var(--u));
+  border-radius:calc(3 * var(--u));
+  background:linear-gradient(#333331,#1d1d1c);
+  box-shadow:0 calc(2 * var(--u)) calc(3 * var(--u)) rgba(0,0,0,.85),inset 0 calc(1 * var(--u)) 0 rgba(255,255,255,.09);
+}
+
+.sw .knob::after {
+  display:none;
+}
+
+/* Soft round keys (back and copy) and the engraved psychophyshicks link */
+.cbtn {
+  position:relative;
+  width:calc(44 * var(--u));
+  height:calc(44 * var(--u));
+  font:inherit;
+  background:none;
+  border:0;
+  padding:0;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  display:grid;
+  place-items:center;
+}
+
+.sock {
+  --ss:calc(34 * var(--u));
+  --cs:calc(27 * var(--u));
+  width:var(--ss);
+  height:var(--ss);
+  border-radius:50%;
+  background:#090909;
+  box-shadow:inset 0 calc(2 * var(--u)) calc(4 * var(--u)) rgba(0,0,0,.95),0 calc(1 * var(--u)) 0 rgba(255,255,255,.09);
+  display:grid;
+  place-items:center;
+}
+
+.top {
+  width:var(--cs);
+  height:var(--cs);
+  border-radius:50%;
+  background:linear-gradient(#262625,#141413);
+  box-shadow:inset 0 calc(1 * var(--u)) 0 rgba(255,255,255,.1),0 calc(1.5 * var(--u)) calc(2 * var(--u)) rgba(0,0,0,.7);
+  display:grid;
+  place-items:center;
+  transform:translateY(calc(-1 * var(--u)));
+  transition:transform .15s cubic-bezier(.3,1.5,.5,1),box-shadow .15s;
+}
+
+.cbtn.down .top {
+  transform:translateY(calc(1 * var(--u)));
+  box-shadow:inset 0 calc(1 * var(--u)) 0 rgba(255,255,255,.05),0 0 calc(1 * var(--u)) rgba(0,0,0,.7);
+  background:linear-gradient(#1b1b1a,#111110);
+  transition:transform .06s ease-out,box-shadow .06s;
+}
+
+.top .pic {
+  width:calc(15 * var(--u));
+  height:calc(15 * var(--u));
+  color:#4a4a47;
+  stroke-width:2.3;
+  filter:drop-shadow(0 calc(-1 * var(--u)) 0 rgba(0,0,0,.85)) drop-shadow(0 calc(1 * var(--u)) 0 rgba(255,255,255,.1));
+}
+
+.cprow {
+  gap:calc(8 * var(--u));
+}
+
+.cprow .cbtn {
+  width:calc(36 * var(--u));
+  height:calc(40 * var(--u));
+}
+
+.mk {
+  position:absolute;
+  left:50%;
+  bottom:calc(12 * var(--u));
+  transform:translateX(-50%);
+  display:block;
+  width:max-content;
+  font-size:clamp(calc(9 * var(--u)),2vw,calc(13 * var(--u)));
+  letter-spacing:.36em;
+  padding-left:.36em;
+  font-weight:700;
+  text-transform:uppercase;
+  color:var(--pl);
+  text-shadow:var(--ps);
+  text-decoration:none;
+  white-space:nowrap;
+  cursor:pointer;
+  line-height:1;
+}
+
+.mk:focus-visible {
+  outline:calc(2 * var(--u)) solid #f2f2ee;
+  outline-offset:calc(3 * var(--u));
+  border-radius:calc(3 * var(--u));
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .cap,.sw .knob {
+    transition:none!important;
+  }
+}

@@ -1,0 +1,108 @@
+/* The split-flap board: frame, nameplate, tile grid and the two flap halves */
+.frame {
+  position:relative;
+  background:linear-gradient(#1d1d1d,#111);
+  border-radius:var(--rf);
+  padding:var(--fp) var(--fp) 0;
+  box-shadow:inset 0 calc(1 * var(--u)) 0 rgba(255,255,255,.08),0 calc(20 * var(--u)) calc(30 * var(--u)) calc(-14 * var(--u)) rgba(0,0,0,.4),0 calc(2 * var(--u)) calc(4 * var(--u)) rgba(0,0,0,.25);
+}
+
+.board {
+  --cols:14;
+  container-type:inline-size;
+  background:#070707;
+  border-radius:calc(var(--rf)*.35);
+  padding:calc(4 * var(--u));
+  box-shadow:inset 0 calc(2 * var(--u)) calc(7 * var(--u)) rgba(0,0,0,.95),0 calc(1 * var(--u)) 0 rgba(255,255,255,.07);
+  display:grid;
+  gap:max(1px,round(calc(3 * var(--u)),1px));
+}
+
+.plate {
+  height:calc(var(--fp)*1.5);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:clamp(calc(13 * var(--u)),2.9vw,calc(19 * var(--u)));
+  letter-spacing:.36em;
+  padding-left:.36em;
+  font-weight:700;
+  text-transform:uppercase;
+  color:var(--pl);
+  text-shadow:var(--ps);
+  user-select:none;
+  white-space:nowrap;
+}
+
+.r {
+  display:grid;
+  grid-template-columns:repeat(var(--cols),minmax(0,1fr));
+  gap:max(1px,round(calc(2 * var(--ub)),1px));
+}
+
+.t {
+  position:relative;
+  aspect-ratio:5/7;
+  perspective:calc(300 * var(--ub));
+  border-radius:calc(3 * var(--ub));
+  font-family:var(--sans);
+  font-weight:600;
+  font-size:calc(62cqw / var(--cols));
+  color:#f4f4f0;
+}
+
+.t::after {
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  top:50%;
+  height:calc(1.5 * var(--ub));
+  transform:translateY(-50%);
+  background:#080808;
+  z-index:5;
+}
+
+.h {
+  position:absolute;
+  left:0;
+  right:0;
+  height:50%;
+  overflow:hidden;
+  background:#232323;
+  backface-visibility:hidden;
+}
+
+.h span {
+  position:absolute;
+  left:0;
+  right:0;
+  height:200%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.u {
+  top:0;
+  border-radius:calc(3 * var(--ub)) calc(3 * var(--ub)) 0 0;
+  transform-origin:bottom;
+}
+
+.u span {
+  top:0;
+}
+
+.d {
+  bottom:0;
+  border-radius:0 0 calc(3 * var(--ub)) calc(3 * var(--ub));
+  transform-origin:top;
+}
+
+.d span {
+  bottom:0;
+}
+
+.f {
+  z-index:3;
+}

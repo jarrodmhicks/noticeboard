@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Notice Board</title>
+<meta name="description" content="Stop and notice what your senses are doing right now. A split-flap board of tiny prompts for hearing, smell, taste, touch and vision.">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23111'/%3E%3Crect x='5' y='3.5' width='6' height='3.4' rx='.8' fill='%23E5484D'/%3E%3Crect x='5' y='7.75' width='6' height='3.4' rx='.8' fill='%23F5821F'/%3E%3Crect x='5' y='12.0' width='6' height='3.4' rx='.8' fill='%23F7C325'/%3E%3Crect x='5' y='16.25' width='6' height='3.4' rx='.8' fill='%233BB066'/%3E%3Crect x='5' y='20.5' width='6' height='3.4' rx='.8' fill='%232F6FDE'/%3E%3Crect x='5' y='24.75' width='6' height='3.4' rx='.8' fill='%237B52D6'/%3E%3Crect x='14' y='7.8' width='14' height='3.4' rx='.8' fill='%23ddd'/%3E%3Crect x='14' y='12.05' width='11' height='3.4' rx='.8' fill='%23ddd'/%3E%3Crect x='14' y='16.3' width='15' height='3.4' rx='.8' fill='%23ddd'/%3E%3Crect x='14' y='20.55' width='8' height='3.4' rx='.8' fill='%23ddd'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Notice Board">
+<meta property="og:description" content="Your senses are always on. Notice them. Press a button for a small prompt to hear, smell, taste, touch or see something right now.">
+<!-- After you deploy, change og:image to the full URL, e.g. https://yoursite.com/og.png, and add og:url. Most link previews ignore relative image paths. -->
+<meta property="og:image" content="og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Notice Board">
+<meta name="twitter:description" content="Your senses are always on. Notice them.">
+<meta name="twitter:image" content="og.png">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/board.css">
+<link rel="stylesheet" href="css/panel.css">
+</head>
+<body>
+<!-- Icon sprite: every icon is a <symbol>, drawn anywhere with <use href="#i-name">.
+     The pictures are stroke/fill "currentColor", so CSS (.eng in css/panel.css) colors and engraves them.
+     Sources: Hugeicons (ear, nose, link; MIT), Carbon (tongue; Apache-2.0), Phosphor (hand, eye; MIT).
+     The die and the back arrow are hand drawn. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<symbol id="i-ear" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M6.077 18c0 2.21 1.149 4 3.23 4s3.77-1.5 4.308-4c.259-1.199.788-1.923 1.616-2.5C17.385 14 19 11.692 19 9A7 7 0 1 0 5 9"/><path d="M9 15c1.385 0 2.508-1.007 2.508-2.25S10.385 10.5 9 10.5C9 8.483 9.464 6 12.01 6C13.8 6 14.85 7.374 15 9.15"/></g></symbol>
+<symbol id="i-nose" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M7 17c2 0 2.5 4 5 4s3-4 5-4"/><path d="M8.5 3c0 2.279-1.368 7.018-2.764 9.112c-1.573 2.36-2.956 6.265.002 7.692C7.198 20.51 9 19.087 9 19.087M15.5 3c0 2.278 1.368 7.018 2.764 9.112c1.573 2.36 2.956 6.265-.002 7.692c-1.46.705-3.262-.717-3.262-.717"/></g></symbol>
+<symbol id="i-tongue" viewBox="0 0 32 32"><g fill="currentColor" stroke="none"><path fill="currentColor" d="M4 4v2h4v8a8 8 0 0 0 16 0V6h4V4Zm18 10a6 6 0 0 1-12 0V6h5v8h2V6h5ZM11 26h2v2h-2zm-4-2h2v2H7zm8 0h2v2h-2zm4 2h2v2h-2zm4-2h2v2h-2z"/></g></symbol>
+<symbol id="i-hand" viewBox="0 0 256 256"><g fill="currentColor" stroke="none"><path fill="currentColor" d="M188 48a27.75 27.75 0 0 0-12 2.71V44a28 28 0 0 0-54.65-8.6A28 28 0 0 0 80 60v64l-3.82-6.13a28 28 0 0 0-48.6 27.82c16 33.77 28.93 57.72 43.72 72.69C86.24 233.54 103.2 240 128 240a88.1 88.1 0 0 0 88-88V76a28 28 0 0 0-28-28m12 104a72.08 72.08 0 0 1-72 72c-20.38 0-33.51-4.88-45.33-16.85C69.44 193.74 57.26 171 41.9 138.58a6 6 0 0 0-.3-.58a12 12 0 0 1 20.79-12a2 2 0 0 0 .14.23l18.67 30A8 8 0 0 0 96 152V60a12 12 0 0 1 24 0v60a8 8 0 0 0 16 0V44a12 12 0 0 1 24 0v76a8 8 0 0 0 16 0V76a12 12 0 0 1 24 0Z"/></g></symbol>
+<symbol id="i-eye" viewBox="0 0 256 256"><g fill="currentColor" stroke="none"><path fill="currentColor" d="M247.31 124.76c-.35-.79-8.82-19.58-27.65-38.41C194.57 61.26 162.88 48 128 48S61.43 61.26 36.34 86.35C17.51 105.18 9 124 8.69 124.76a8 8 0 0 0 0 6.5c.35.79 8.82 19.57 27.65 38.4C61.43 194.74 93.12 208 128 208s66.57-13.26 91.66-38.34c18.83-18.83 27.3-37.61 27.65-38.4a8 8 0 0 0 0-6.5M128 192c-30.78 0-57.67-11.19-79.93-33.25A133.5 133.5 0 0 1 25 128a133.3 133.3 0 0 1 23.07-30.75C70.33 75.19 97.22 64 128 64s57.67 11.19 79.93 33.25A133.5 133.5 0 0 1 231.05 128c-7.21 13.46-38.62 64-103.05 64m0-112a48 48 0 1 0 48 48a48.05 48.05 0 0 0-48-48m0 80a32 32 0 1 1 32-32a32 32 0 0 1-32 32"/></g></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></g></symbol>
+<symbol id="i-link" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="m9.143 10.691l.207-.207a5.067 5.067 0 1 1 7.166 7.166l-2.866 2.866a5.067 5.067 0 1 1-7.166-7.166l.464-.464"/><path d="m17.052 11.114l.464-.464a5.067 5.067 0 1 0-7.166-7.166L7.484 6.35a5.067 5.067 0 1 0 7.166 7.166"/></g></symbol>
+<symbol id="i-dice" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="12" height="12" rx="1.4"/><path d="M3 9l5-5h12l-5 5M20 4v12l-5 5"/><g transform="matrix(12 0 0 12 3 9)"><circle cx="0.27" cy="0.27" r="0.125" fill="currentColor" stroke="none"/><circle cx="0.73" cy="0.73" r="0.125" fill="currentColor" stroke="none"/></g><g transform="matrix(12 0 5 -5 3 9)"><circle cx="0.5" cy="0.5" r="0.09" fill="currentColor" stroke="none"/></g><g transform="matrix(5 -5 0 12 15 9)"><circle cx="0.25" cy="0.25" r="0.125" fill="currentColor" stroke="none"/><circle cx="0.5" cy="0.5" r="0.125" fill="currentColor" stroke="none"/><circle cx="0.75" cy="0.75" r="0.125" fill="currentColor" stroke="none"/></g></g></symbol>
+</svg>
+<noscript><p class="ns">Your senses are always on. Notice them.<small>This board draws its tiles with JavaScript, so it needs JavaScript turned on to show prompts.</small></p></noscript>
+<label id="hap" aria-hidden="true" style="position:fixed;left:0;top:0;width:1px;height:1px;opacity:.01;overflow:hidden;pointer-events:none"><input type="checkbox" switch tabindex="-1"></label>
+<main class="wrap">
+  <h1 class="sr">Notice Board</h1>
+  <div class="stack" id="stack">
+
+    <!-- The board: a frame holding a 14 x 6 grid of flip tiles (built by js/board.js) -->
+    <div class="frame" id="frame">
+      <div class="board" id="board" aria-hidden="true"></div>
+      <div class="plate" aria-hidden="true">Notice Board</div>
+    </div>
+    <!-- Screen readers get the board's text here, since the tiles are hidden from them -->
+    <div class="sr" id="live" aria-live="polite"></div>
+
+    <!-- The cable between board and panel (drawn by js/cable.js) -->
+    <div class="rig" id="rig"><svg id="wires" aria-hidden="true"></svg></div>
+
+    <!-- The control panel, tilted back like a tabletop box -->
+    <div class="table" id="table">
+      <div class="panel" id="panel">
+        <i class="scr a"></i><i class="scr b"></i><i class="scr c"></i><i class="scr d2"></i>
+        <i class="port" id="port"></i>
+        <div class="box">
+          <!-- six sense buttons, created by js/controls.js -->
+          <div class="keys" id="senses"></div>
+          <!-- right side: sound fader (created by js/controls.js) above the back and copy keys -->
+          <div class="swcol" id="swcol">
+            <div class="sndrow" id="sndrow"></div>
+            <div class="cprow">
+              <button class="cbtn" id="back" aria-label="Previous prompt">
+                <span class="sock"><span class="top"><svg class="pic" aria-hidden="true"><use href="#i-back"/></svg></span></span>
+              </button>
+              <button class="cbtn" id="copy" aria-label="Copy link to this prompt">
+                <span class="sock"><span class="top"><svg class="pic" aria-hidden="true"><use href="#i-link"/></svg></span></span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <a class="mk" id="mk" href="https://psychophyshicks.com" target="_blank" rel="noopener" aria-label="psychophyshicks.com">psychophyshicks</a>
+      </div>
+    </div>
+
+    <p class="err" id="err"></p>
+  </div>
+</main>
+
+<!-- Scripts share one global scope, so the order matters: each file only uses things from the files above it. -->
+<script src="js/config.js"></script>
+<script src="js/util.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/board.js"></script>
+<script src="js/prompts.js"></script>
+<script src="js/cable.js"></script>
+<script src="js/controls.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
