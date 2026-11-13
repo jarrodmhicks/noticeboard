@@ -1,126 +1,151 @@
 sense,prompt
-hearing,Notice the farthest sound you can hear.
-hearing,Notice your own breathing.
-hearing,Notice the quietest sound in the room.
-hearing,Notice a sound you have been ignoring.
-hearing,Notice where each sound is coming from.
+hearing,Listen to your own breathing.
+hearing,Listen for where a sound comes from.
+hearing,Hear a sound you have been ignoring.
 hearing,Notice the silence between two sounds.
-hearing,Notice the hum of something electric.
-hearing,Notice how your footsteps sound.
-hearing,Notice a sound coming from above you.
-hearing,Notice the rhythm of the nearest sound.
-hearing,Notice how your voice sounds inside your head.
-hearing,Notice how close the nearest voice sounds.
-hearing,Close your eyes and count the sounds around you.
-hearing,Clap once and listen to the room answer.
-hearing,Hum a low note and feel it in your chest.
-hearing,Tap a table. Then tap a mug.
-hearing,Cover one ear and listen for what changes.
-hearing,Whisper your name out loud.
-hearing,Say one word until it stops sounding like a word.
-hearing,Follow one sound until it fades.
-hearing,Rub two fingers together beside your ear.
-hearing,Click your tongue and follow the echo.
-hearing,Listen to the wind or traffic like music.
-hearing,Listen for a sound that repeats.
-hearing,Cup your hands behind your ears and listen.
-smell,Notice the smell of the room you are in.
-smell,Notice the smell of the air outside.
-smell,Notice the smell of your coffee or tea.
-smell,Notice the smell of your hands.
-smell,Notice the smell of a book up close.
-smell,Notice what cold air smells like.
-smell,Notice a smell you usually ignore.
-smell,Notice how your food smells before you taste it.
-smell,Notice the smell of soap.
-smell,Notice the smell of something old.
-smell,Notice a smell that reminds you of someone.
-smell,Notice what your pillow smells like.
-smell,Notice where a smell is strongest.
-smell,Notice if a smell fades as you breathe it.
-smell,Breathe in slowly through one nostril.
-smell,Rub a herb between your fingers and breathe in.
-smell,Pick a spice and breathe it in slowly.
-smell,Smell a piece of fruit up close.
-smell,Smell your sleeve.
+hearing,Hear the hum of something electric.
+hearing,Listen to your own voice.
+hearing,Count the unique sounds around you.
+hearing,Clap and listen to the sound.
+hearing,Tap a table and listen.
+hearing,Tap a cup and listen.
+hearing,Listen to the sound of whispering.
+hearing,Say a word until it stops sounding like a word.
+hearing,Rub two fingers together and listen.
+hearing,Click your tongue and listen.
+hearing,Listen for a sound behind you.
+hearing,Listen for a sound outside.
+hearing,Listen to the sound of your clothes as you move.
+hearing,Listen to your footsteps.
+hearing,Tap your finger on a hard surface and listen.
+hearing,Tap your finger on a soft surface and listen.
+hearing,Knock gently on a wall and listen.
+hearing,Tap two objects together and listen.
+hearing,Slide an object and listen.
+hearing,Rub your palms together and listen.
+hearing,Crinkle a piece of paper and listen.
+hearing,Scratch a surface lightly and listen.
+hearing,Shake an object and listen.
+hearing,Listen to the sound of a zipper.
+hearing,Pour some water and listen.
+hearing,Hear yourself swallow.
+smell,Sniff the room you are in.
+smell,Breathe in the air outside.
+smell,Inhale the scent of coffee or tea.
+smell,Smell your hands.
+smell,Sniff a book.
+smell,Smell some soap.
+smell,Sniff your shirt.
+smell,Inhale the scent of a spice.
+smell,Smell a piece of fruit.
 smell,Take three slow sniffs of one thing.
 smell,Smell a leaf or a stem.
 smell,Open a cupboard and breathe in.
-smell,Step outside and smell the weather.
-smell,Smell the steam rising from a hot drink.
 smell,Open a jar and breathe in.
-taste,Lick something salty and wait for the change.
-taste,Let something sour sit on your tongue.
-taste,Take a sip of water and really taste it.
-taste,Chew one bite five times slower than usual.
-taste,Hold a bite in your mouth before chewing.
-taste,Taste something sweet with your nose pinched.
-taste,Eat one bite with your eyes closed.
-taste,Taste something bitter. Where does it land?
-taste,Taste something fizzy and feel the bubbles.
-taste,Touch a pinch of salt to your tongue.
-taste,Press a bite against the roof of your mouth.
-taste,Try a food you usually rush.
-taste,Chew with your nose pinched. Then let go.
-taste,Rinse your mouth and taste the nothing.
-taste,Find three flavors in a single bite.
-taste,Notice how warm or cool your next sip is.
-taste,Notice what taste is lingering right now.
-taste,Notice how the flavor changes as you chew.
-taste,Notice the taste of your own mouth.
-taste,Notice where on your tongue you taste most.
-taste,Notice the aftertaste of your last sip.
-taste,Notice the texture of your food before the taste.
-taste,Notice how a hot drink tastes as it cools.
-taste,Notice how the first bite differs from the last.
-taste,Notice how your mouth waters.
-touch,Hold something cold. Where do you feel it first?
-touch,Notice the weight of your phone in your hand.
-touch,Notice where your clothes touch your skin.
-touch,Notice the chair holding you up.
-touch,Notice your feet inside your socks.
-touch,Notice the air moving across your face.
-touch,Notice how warm your hands are.
-touch,Notice the pressure where your body meets the floor.
-touch,Notice the texture of the nearest surface.
-touch,Notice your pulse in your fingers.
-touch,Notice how your tongue rests in your mouth.
-touch,Rub fabric between two fingers.
+smell,Open your fridge and breathe in.
+smell,Sniff a pillow or blanket.
+smell,Smell a towel.
+smell,Smell a flower.
+smell,Sniff a glass before taking a drink.
+smell,Smell your next bite before you eat it.
+smell,Smell a candle.
+smell,Sniff a wall.
+smell,Breathe in the air inside a car.
+smell,Smell the grass.
+smell,Inhale the steam from a warm drink.
+smell,Sniff the soil of a plant.
+smell,Take a deep breath after coming indoors.
+smell,Smell the inside of a pocket.
+smell,Sniff a tabletop.
+smell,Breathe in the air near a vent.
+smell,Sniff the inside of an empty container.
+taste,Taste a sip of water.
+taste,Take a sip of a cold drink.
+taste,Take a sip of a warm drink.
+taste,Take a sip of a fizzy drink.
+taste,Take a bite of a crunchy food.
+taste,Take a bite of a chewy food.
+taste,Take a bite of a creamy food.
+taste,Take a bite of a crisp food.
+taste,Take a bite of a juicy food.
+taste,Taste a salty food.
+taste,Taste a bitter food.
+taste,Taste a sweet food.
+taste,Taste a sour food.
+taste,Taste a spicy food.
+taste,Taste a savory food.
+taste,Taste a food with a smoky flavor.
+taste,Taste a food with a tangy flavor.
+taste,Taste a food with a fruity flavor.
+taste,Try a food with a mild flavor.
+taste,Try a food with a strong flavor.
+taste,Try a food that tastes buttery.
+taste,Try a food that tastes nutty.
+taste,Drink something sweet.
+taste,Drink something creamy.
+taste,Drink something tart.
+taste,Drink something bitter.
+taste,Focus on the first flavor in a bite.
+taste,Take a bite of a familiar food.
+taste,Take a bite of something new.
+taste,Taste the inside of your mouth.
+touch,Feel the weight of your phone in your hand.
+touch,Feel where your clothes touch your skin.
+touch,Feel the chair holding you up.
+touch,Feel your feet inside your socks.
+touch,Blow air onto your arm.
+touch,Rub your hands together.
+touch,Press your feet onto the floor.
+touch,Feel the texture of the nearest surface.
+touch,Feel your pulse.
+touch,Rub fabric between your fingers.
 touch,Press your palm flat on a table.
-touch,Trace one edge with a fingertip.
-touch,Touch something warm. Then something cold.
-touch,Touch something rough. Then something smooth.
+touch,Trace an edge with a fingertip.
+touch,Touch something warm.
+touch,Touch something cold.
+touch,Touch something rough.
+touch,Touch something smooth.
 touch,Run your fingers through your hair.
-touch,Hold a mug in both hands.
 touch,Press your tongue to the roof of your mouth.
-touch,Squeeze your hands together. Then let go.
-touch,Find the softest thing within reach.
-touch,Rub your thumb across a coin.
-touch,Let cool water run over your wrists.
-touch,Rest a hand on your chest and feel it rise.
+touch,Squeeze your hands tightly together.
+touch,Scratch your arm.
+touch,Run cool water over your wrists.
 touch,Tap each fingertip against your thumb.
-vision,Notice three shades of blue around you.
-vision,Notice the edges of your vision.
-vision,Notice where the light is coming from.
-vision,Notice the softest edge of a shadow.
-vision,Notice the brightest thing in view.
-vision,Notice what is moving at the edge of your sight.
-vision,Notice the color hiding inside a shadow.
-vision,Notice how light falls on one object.
-vision,Notice something you have never looked at closely.
-vision,Notice the smallest thing you can see.
-vision,Notice how distant things look hazier.
-vision,Notice your nose. It is always in view.
-vision,Notice the shapes between the objects.
-vision,Notice a reflection and what it shows.
-vision,Look at your hand like you have never seen it.
-vision,Stare at a window and find what is far away.
-vision,Find something red without moving your head.
-vision,Look at a plant and count its shades of green.
-vision,Find a straight line. Is it really straight?
-vision,Look at one thing for ten seconds.
-vision,Look at the sky and find where the color changes.
-vision,Find two things that are almost the same color.
+touch,Press your lips together softly.
+touch,Interlace your fingers.
+touch,Rub the back of your hand.
+touch,Feel a seam on your clothing.
+touch,Shift your weight from side to side.
+touch,Feel the weight of your arms as they hang.
+touch,Brush a fingertip along your eyebrow.
+touch,Roll a small object between your palms.
+vision,Look for something red.
+vision,Look for something orange.
+vision,Look for something yellow.
+vision,Look for something green.
+vision,Look for something blue.
+vision,Look for something white.
+vision,Look for something black.
+vision,Find an object smaller than your hand.
+vision,Follow a straight line with your eyes.
+vision,Spot a shadow.
+vision,Follow a moving object with your eyes.
+vision,Look at an object with a reflection.
+vision,Look at your nose. It's always in view.
+vision,Find a curved line.
+vision,Look for something transparent.
+vision,Observe an object from top to bottom.
+vision,Look for a letter.
+vision,Look for a number.
+vision,Look at the details of your hand.
+vision,Stare at something far away.
+vision,Count the shades of green on a plant.
 vision,Close your eyes and look at the dark.
-vision,Look far away. Then look near.
-vision,Look up. What is on the ceiling?
+vision,Look at the edges of your vision.
+vision,Study the texture of a surface.
+vision,Look at the shape between two objects.
+vision,Look at an object upside down.
+vision,Search for a shape that resembles a face.
+vision,Look at the corners of the room.
+vision,Find something that looks soft.
+vision,Find something that looks hard.
