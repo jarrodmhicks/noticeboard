@@ -6,10 +6,10 @@ const board = document.getElementById("board");
 const tiles = []; // COLS x ROWS tile elements, row by row
 const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-// A "token" is what a half-tile displays: one character, or 'sw:<sense>' for a colored swatch.
+// A "token" is what a half-tile displays: a character, or a colored swatch ('sw:<sense>').
 function paint(h, tok) {
   const sp = h.firstChild;
-  if (tok.length > 3 && tok.slice(0, 3) === "sw:") {
+  if (tok.startsWith("sw:")) {
     sp.textContent = " ";
     h.style.background = "var(--c-" + tok.slice(3) + ")";
   } else {
@@ -59,12 +59,11 @@ function setTile(t, tok) {
 // Flip a tile once, from what it shows now to token n.
 // The upper half of the tile already shows the NEW character behind the moving flap.
 // A flap showing the OLD character falls forward (0 -> -90deg), then a flap showing the NEW one
-// swings down into place (90 -> 0deg). Each phase is 55 ms. `tok` is the tile's generation counter:
+// swings down into place (90 -> 0deg). Each phase is 55 ms by default (D). `tok` is the tile's generation counter:
 // if a newer target arrives mid-flip, the old flip notices and stops.
-function flip(t, n, tok) {
+function flip(t, n, tok, D = 55) {
   return new Promise((res) => {
-    const old = t.cur,
-      D = 55;
+    const old = t.cur;
     paint(t.up, n);
     const ft = half("u f", old);
     t.appendChild(ft);
@@ -149,11 +148,67 @@ function wrap(text, W) {
   return lines;
 }
 
-// Turn something to show into ROWS strings of text.
-//   null           -> the opening board
-//   {sense, text}  -> row 1: swatch tile, blank tile, sense name; then (if it fits) a blank row; then the prompt
-// In a row string, '#' means "the swatch of the current sense", and (on the opening board only)
-// the letters a-f mean the six rainbow stripe tiles.
+/* Turn something to show into ROWS strings of text.
+     null           -> the opening board
+     {sense, text}  -> row 1: swatch tile, blank tile, sense name, then the prompt
+   In a row string, '#' means "the swatch of the current sense", and (on the opening board only) the
+   letters a-f mean the six rainbow stripe tiles.
+
+   SETTINGS.accent adds more swatch tiles around the prompt. Each accent is a layout: where the text
+   goes (x0 = first column, W = width, y0(n) = first row for n lines, bottom = first row it may not
+   use) and a `mark` function that draws the swatches. If the prompt is too long for an accent's
+   layout, that prompt falls back to the spec named in `next` (if any), then to no accent. */
+const ACCENTS = {
+  off: { label: "None", x0: 0, W: COLS, y0: (n) => (n <= ROWS - 2 ? 2 : 1), bottom: ROWS },
+  rule: {
+    label: "Line under the word (full width)",
+    x0: 0, W: COLS, y0: () => 2, bottom: ROWS,
+    mark: (g) => g[1].fill("#"),
+  },
+  tab: {
+    label: "Line under the word",
+    x0: 0, W: COLS, y0: () => 2, bottom: ROWS,
+    mark: (g, word) => g[1].fill("#", 0, word.length + 2),
+  },
+  frame: {
+    label: "Frame wraps the edge",
+    next: "arch",
+    x0: 1, W: COLS - 2, y0: () => 1, bottom: ROWS - 1,
+    mark: (g, word) => {
+      g[0].fill("#", word.length + 3); // top edge, after the word and a one-tile gap
+      for (let r = 1; r < ROWS; r++) g[r][0] = g[r][COLS - 1] = "#";
+      g[ROWS - 1].fill("#");
+    },
+  },
+  // Not a choice of its own: a frame with no bottom edge, for prompts too long for the full frame.
+  arch: {
+    hidden: true,
+    x0: 1, W: COLS - 2, y0: () => 1, bottom: ROWS,
+    mark: (g, word) => {
+      g[0].fill("#", word.length + 3);
+      for (let r = 1; r < ROWS; r++) g[r][0] = g[r][COLS - 1] = "#";
+    },
+  },
+  spine: {
+    label: "Stripe down the left",
+    x0: 2, W: COLS - 2, y0: (n) => (n <= ROWS - 2 ? 2 : 1), bottom: ROWS,
+    mark: (g) => g.forEach((row) => (row[0] = "#")),
+  },
+  spineR: {
+    label: "Stripe down the right",
+    x0: 0, W: COLS - 2, y0: (n) => (n <= ROWS - 2 ? 2 : 1), bottom: ROWS,
+    mark: (g) => g.forEach((row) => (row[COLS - 1] = "#")),
+  },
+  corners: {
+    label: "Corner tiles",
+    x0: 0, W: COLS, y0: (n) => (n <= ROWS - 2 ? 2 : 1), bottom: ROWS,
+    mark: (g) => {
+      for (const [r, c] of [[0, COLS - 1], [ROWS - 1, 0], [ROWS - 1, COLS - 1]])
+        if (g[r][c] === " ") g[r][c] = "#";
+    },
+  },
+};
+
 function rowsFor(item) {
   if (!item) {
     return Array.from(
@@ -161,16 +216,36 @@ function rowsFor(item) {
       (_, r) => STRIP[r] + " " + (OPENING_BOARD[r] || ""),
     );
   }
-  const lines = wrap(item.text, COLS);
-  const blank = lines.length <= ROWS - 2;
-  let rows = ["# " + item.sense.toUpperCase()].concat(blank ? [""] : [], lines);
-  if (rows.length > ROWS) {
-    rows = rows.slice(0, ROWS);
+  const word = item.sense.toUpperCase();
+  const attempt = (spec) => {
+    const lines = wrap(item.text, spec.W);
+    const y0 = spec.y0(lines.length);
+    if (y0 + lines.length > spec.bottom) return null;
+    const g = Array.from({ length: ROWS }, () => new Array(COLS).fill(" "));
+    g[0][0] = "#";
+    for (let i = 0; i < word.length; i++) g[0][2 + i] = word[i];
+    if (spec.mark) spec.mark(g, word);
+    lines.forEach((line, i) => {
+      for (let j = 0; j < line.length; j++) g[y0 + i][spec.x0 + j] = line[j];
+    });
+    return g;
+  };
+  let g = null;
+  for (let spec = ACCENTS[SETTINGS.accent]; spec && !g; spec = ACCENTS[spec.next]) g = attempt(spec);
+  if (!g) g = attempt(ACCENTS.off);
+  if (!g) {
+    // Too long even for the plain layout: keep what fits.
     console.warn("Prompt too long for the board:", item.text);
+    const lines = wrap(item.text, COLS).slice(0, ROWS - 1);
+    g = Array.from({ length: ROWS }, () => new Array(COLS).fill(" "));
+    g[0][0] = "#";
+    for (let i = 0; i < word.length; i++) g[0][2 + i] = word[i];
+    lines.forEach((line, i) => [...line].forEach((ch, j) => (g[1 + i][j] = ch)));
   }
-  return Array.from({ length: ROWS }, (_, r) => rows[r] || "");
+  return g.map((row) => row.join(""));
 }
 
+// Which token a character in a row string stands for.
 function tokenFor(ch) {
   if (ch === "#" && cur && cur.sense) return "sw:" + cur.sense;
   if (!cur && ch !== " " && STRIP.includes(ch))
@@ -188,7 +263,7 @@ function show(rows, instant, extra) {
     // The same text for screen readers (swatches carry no text).
     spoken.push(
       s
-        .replace("#", " ")
+        .replace(/#/g, " ")
         .replace(cur ? /$^/ : /[a-f]/g, " ")
         .trim(),
     );

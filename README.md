@@ -21,8 +21,11 @@ After deploying, edit the `og:image` and `twitter:image` lines in `index.html` t
 ```
 index.html            the page: meta tags, icon sprite, and the markup for board and panel
 prompts.csv           the prompts (sense,prompt)
+check_prompts.py      checks prompts.csv against the board: python3 check_prompts.py
 og.png                the image shown when the link is shared
 apple-touch-icon.png  the icon for phone home screens
+favicon.svg          the browser-tab icon (a rainbow stripe and lines of text, like the board)
+favicon.ico           the same icon at 16, 32 and 48 px for older browsers
 
 css/
   base.css            colors, the unit system, page layout
@@ -34,6 +37,7 @@ js/                   loaded in this order (they share one global scope)
   util.js             small helpers: storage, hashing, shuffle, CSV parser
   audio.js            sounds, synthesized live
   board.js            the tiles, the flip animation, word wrapping
+  anim.js             full-board animations: the idle stripes and the "link copied" ripple
   prompts.js          loading, dealing, share links, back, idle reset
   cable.js            the tabletop fit and the cable
   controls.js         buttons, fader, back and copy keys, keyboard, vibration
@@ -44,7 +48,8 @@ js/                   loaded in this order (they share one global scope)
 
 **Prompts.** Edit `prompts.csv`. Each row is `sense,prompt`, and the sense is one of `hearing`, `smell`, `taste`, `touch`, `vision` (`sight` is accepted too). Wrap a prompt in double quotes if it contains a comma. A prompt can use up to 4 lines of 14 capital letters once word-wrapped (5 lines if you accept losing the blank row under the sense name). The browser console prints a warning when a prompt is too long.
 
-**Settings.** Everything in `js/config.js`: the idle timeout, phone vibration on or off, the opening message, the grid size and the order of characters the flaps cycle through.
+**Settings.** Everything in `js/config.js`: the `SETTINGS` object (idle delay and the color accent), phone vibration on or off, the opening message, the grid size and the order of characters the flaps cycle through.
+
 
 **Share links break if you edit a prompt.** A link looks like `#smell-1nz1v`. The part after the dash is a short hash of the prompt's text, so reordering the CSV is safe, but rewording a prompt gives it a new link.
 
@@ -112,7 +117,7 @@ The cable is an SVG path redrawn whenever the layout changes (`queueWires()` bat
 
 The six sense buttons are a round dark **well** with a colored **cap** that moves up and down. Pressing adds the class `down`, which shrinks the cap, drops it and dims it. A press always lasts at least 150 ms so a fast tap is still visible.
 
-Because the panel is 3D-transformed, some browsers do not deliver `click` reliably to its children. So `controls.js` finds the pressed button itself, by checking whether the pointer is inside a button's rectangle on `pointerdown` and `pointerup`. The normal `click` handler remains for keyboards and screen readers; a timestamp (`handledAt`) stops one press from being handled twice. Keys 1 to 5 and R also work.
+Because the panel is 3D-transformed, some browsers do not deliver `click` reliably to its children. So `controls.js` finds the pressed button itself, by checking whether the pointer is inside a button's rectangle on `pointerdown` and `pointerup`. The normal `click` handler remains for keyboards and screen readers; a timestamp (`handledAt`) stops one press from being handled twice. Keys 1 to 5 pick a sense, R is random, B (or Backspace or the left arrow) goes back and C copies the link.
 
 The sound fader is a real `<button role="switch">` with `aria-checked`. The knob slides with CSS alone (`left` changes when `aria-checked` flips). The speaker icons at its ends never change; only the knob moves. The back and copy keys share a helper, `mkBtn()`, which gives them the same press feel.
 
@@ -131,7 +136,7 @@ Browsers refuse to start audio until the person has touched the page, so `audio(
 
 ### Dealing prompts
 
-Prompts are read from the CSV into `bank`, grouped by sense. Each sense is dealt from a shuffled deck, so you see every prompt once before any repeats, and a reshuffle never starts with the prompt you just saw. The random button deals from all senses at once.
+Prompts are read from the CSV into `bank`, grouped by sense. Each sense is dealt from a shuffled deck, so you see every prompt once before any repeats, and a reshuffle never starts with the prompt you just saw. The random button picks a sense (in proportion to how many prompts it has) and deals from that sense's deck, so the random and sense buttons share the same decks.
 
 ### Share links, copy and back
 
@@ -141,7 +146,19 @@ The back key returns one step: it remembers only the state before the latest pre
 
 ### Idle reset
 
-Any pointer or key press restarts a timer (`poke()`). After `IDLE_MINUTES` with no activity the board returns to the opening message and the address bar is cleared.
+Any pointer or key press restarts a timer (`poke()`). After `SETTINGS.idleSeconds` with no activity the board plays the stripe animation (below) and then returns to the opening message; the address bar is cleared.
+
+### Full-board animations (`anim.js`)
+
+An animation is a list of **scenes**. A scene is a full board (one token per tile: a letter, a color, or blank) plus two small functions: `delay(r, c)`, when each tile starts, and `spins(r, c)`, how many times it flips before it stops. To go from one scene to the next, every tile that differs behaves like a real split-flap: it spins through a run of characters (or, for a color, through the rainbow) and lands on its target (`spinTo()` and `spinSeq()`, using the same `flip()` and click as the text). Because delays and spin counts vary by position, the board settles in a sweep or a ripple. When every tile has landed the scene holds for a moment and the next begins: spin, stop, spin, stop.
+
+**Idle stripes** (`stripes()`). Rainbow stripes drop in from the top (red, orange, yellow, green, blue, purple), then pull back one row at a time, red first, toward the rainbow column on the left, which stays. `idleReset()` then flips the opening message in. Touching anything while it plays stops it (`stopAnim()` bumps a counter that every spinning tile checks between flips) and puts the board back as it was.
+
+**Link copied** (`copiedEffect()`). Rings of color ripple out from the center, then `LINK` and `COPIED` ripple in over them, stacked and centered (COPIED starts at column 4 and LINK at column 5, so LINK sits above "OPIE"). The message holds for about a second and a half, then the board flips back to the prompt. With reduced motion on, it just shows `LINK COPIED` on the first row.
+
+### Color accents
+
+`SETTINGS.accent` adds solid swatch tiles (the sense's color, never faded) around the prompt. The choices are listed in `ACCENTS` in `board.js`: `off`, `rule` (a full-width line under the sense word), `tab` (a line under just the word), `frame` (color wraps the rest of the edge, starting after the word), `spine` (a stripe down the left), `spineR` (a stripe down the right) and `corners`. Each accent is a small layout: where the prompt text goes and a function that marks the swatch tiles. A prompt that is too long for an accent's layout falls back to a simpler one (a frame loses its bottom edge, the others drop the accent), so every prompt always fits. `python3 check_prompts.py` lists which prompts would fall back.
 
 ### Vibration
 

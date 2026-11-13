@@ -14,9 +14,13 @@ let idleT = null;
 
 // Read prompts.csv into `bank`. The first row may be a header ("sense,prompt").
 async function load() {
-  const r = await fetch(PROMPTS_URL, { cache: "no-cache" });
-  if (!r.ok) throw new Error("HTTP " + r.status);
-  parseCSV(await r.text()).forEach((row, i) => {
+  let csv = window.NB_CSV; // the single-file preview build supplies the CSV here
+  if (csv === undefined) {
+    const r = await fetch(PROMPTS_URL, { cache: "no-cache" });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    csv = await r.text();
+  }
+  parseCSV(csv).forEach((row, i) => {
     if (row.length < 2) return;
     let s = row[0].trim().toLowerCase();
     s = ALIAS[s] || s;
@@ -34,6 +38,20 @@ function pool(key) {
 // Deal the next prompt for a sense. Each sense is dealt from a shuffled deck, and a reshuffle
 // never starts with the prompt that was just shown.
 function draw(key) {
+  if (key === "any") {
+    // Random: choose a sense in proportion to how many prompts it has, then deal from that sense's
+    // deck, so the random button and the sense buttons share one shuffled deck per sense.
+    const total = SENSES.reduce((n, s) => n + (bank[s] || []).length, 0);
+    let k = Math.floor(Math.random() * total);
+    for (const s of SENSES) {
+      const n = (bank[s] || []).length;
+      if (k < n) {
+        key = s;
+        break;
+      }
+      k -= n;
+    }
+  }
   let d = decks[key];
   if (!d || !d.length) {
     d = decks[key] = shuffle(pool(key).slice());
@@ -64,6 +82,7 @@ function fromHash() {
   if (!m) return false;
   const p = (bank[ALIAS[m[1]] || m[1]] || []).find((x) => x.id === m[2]);
   if (!p) return false;
+  stopAnim();
   clearTimeout(msgT);
   sel = p.sense;
   cur = p;
@@ -76,10 +95,11 @@ function fromHash() {
    opening message. */
 function poke() {
   clearTimeout(idleT);
-  if (!IDLE_MINUTES || !cur) return;
-  idleT = setTimeout(resetBoard, IDLE_MINUTES * 60000);
+  if (!SETTINGS.idleSeconds || !cur) return;
+  idleT = setTimeout(idleReset, SETTINGS.idleSeconds * 1000);
 }
 function resetBoard() {
+  stopAnim();
   clearTimeout(msgT);
   prev = null;
   cur = null;
@@ -97,6 +117,7 @@ function flash(txt) {
 
 // A sense button was pressed: deal a prompt and show it. Remember the state before it.
 function pick(key) {
+  stopAnim();
   clearTimeout(msgT);
   prev = { cur, sel };
   sel = key;
@@ -108,6 +129,7 @@ function pick(key) {
 // The back button: return to the state before the last press. Only one step is remembered.
 function goBack() {
   if (!prev) return;
+  stopAnim();
   clearTimeout(msgT);
   cur = prev.cur;
   sel = prev.sel;

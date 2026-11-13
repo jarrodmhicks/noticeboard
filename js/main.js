@@ -18,6 +18,20 @@ if (window.ResizeObserver)
 if (document.fonts && document.fonts.ready)
   document.fonts.ready.then(queueWires);
 
+// Touching anything while an animation plays stops it and puts the board back as it was
+// (the prompt for a "link copied" effect, the opening board after the idle stripes).
+["pointerdown", "keydown"].forEach((ev) =>
+  document.addEventListener(
+    ev,
+    (e) => {
+      if (!animating) return;
+      stopAnim();
+      show(rowsFor(cur), false, 0);
+    },
+    { passive: true },
+  ),
+);
+
 // Any touch or key press restarts the idle timer.
 ["pointerdown", "keydown"].forEach((ev) =>
   document.addEventListener(
@@ -43,3 +57,4 @@ load()
     el.textContent =
       "Couldn't load prompts.csv. If you opened this file directly from your computer, serve the folder instead, for example with python3 -m http.server.";
   });
+

@@ -10,8 +10,9 @@ const SPK_OFF =
   '<span class="spkw"><svg class="spk eng" viewBox="0 0 24 24" aria-hidden="true"><defs><mask id="spkm" maskUnits="userSpaceOnUse" x="-2" y="-2" width="28" height="28"><rect x="-2" y="-2" width="28" height="28" fill="#fff"/><line x1="3.5" y1="3.5" x2="20.5" y2="20.5" stroke="#000" stroke-width="5" stroke-linecap="round"/></mask></defs><g mask="url(#spkm)"><path d="M11 5 6 9H2v6h4l5 4V5Z"/></g><line x1="3.5" y1="3.5" x2="20.5" y2="20.5"/></svg></span>';
 
 /* Haptics. Android Chrome has navigator.vibrate. iOS has none, but toggling a hidden
-   <input type="checkbox" switch> gives a light tap, so we click one. Both need a prior user
-   gesture; returns whether a buzz was sent. */
+   <input type="checkbox" switch> gave a light tap in Safari (iOS 17.4 and later), so we click one.
+   It is a best effort: it does nothing in Chrome on iOS, and reportedly Apple closed it in iOS 26.5.
+   Both need a prior user gesture; returns whether a buzz was sent. */
 let buzzed = false;
 function buzz() {
   if (!VIBRATE) return false;
@@ -208,7 +209,7 @@ async function copyLink() {
   const url = cur ? linkFor(cur) : location.href.split("#")[0];
   try {
     await navigator.clipboard.writeText(url);
-    flash("LINK COPIED");
+    copiedEffect();
   } catch (e) {
     try {
       window.prompt("Copy this link", url);
@@ -216,7 +217,8 @@ async function copyLink() {
   }
 }
 
-// Keyboard shortcuts: 1-5 pick a sense, R picks a random prompt.
+// Keyboard shortcuts: 1-5 pick a sense, R a random prompt, B (or Backspace, or the left arrow) goes
+// back, C copies the link.
 document.addEventListener("keydown", (e) => {
   if (e.metaKey || e.ctrlKey || e.altKey || e.repeat) return;
   const t = e.target;
@@ -224,4 +226,8 @@ document.addEventListener("keydown", (e) => {
   const i = "12345".indexOf(e.key);
   if (i >= 0) pressKey(SENSES[i]);
   else if (e.key === "r" || e.key === "R") pressKey("any");
+  else if (/^[bB]$|^Backspace$|^ArrowLeft$/.test(e.key)) {
+    e.preventDefault();
+    document.getElementById("back").click();
+  } else if (e.key === "c" || e.key === "C") document.getElementById("copy").click();
 });

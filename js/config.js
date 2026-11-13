@@ -5,8 +5,14 @@
 // Where the prompts live (a CSV with the columns: sense,prompt).
 const PROMPTS_URL = "prompts.csv";
 
-// Go back to the opening board after this many minutes without a press. 0 = never.
-const IDLE_MINUTES = 3;
+// Settings that change how the board behaves.
+const SETTINGS = {
+  // Return to the opening board after this many seconds without a press. 0 = never.
+  idleSeconds: 180,
+  // Extra swatch tiles around a prompt: "off", "rule", "tab", "frame", "spine", "spineR" or "corners"
+  // (see ACCENTS in board.js).
+  accent: "off",
+};
 
 // Buzz the phone briefly when a button is pressed.
 const VIBRATE = true;
